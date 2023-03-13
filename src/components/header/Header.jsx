@@ -1,19 +1,26 @@
 import {useLocation, useNavigate} from "react-router";
 
 export default function Header() {
+
     const location = useLocation();
     const navigate = useNavigate();
     const navigateAddress = (route, name) => {
-        let css = `py-3 text-sm cursor-pointer font-semibold  text-gray-400 border-b-[3px] border-b-transparent ${((route === location.pathname) ?? false) && "text-black border-b-red-500"}`;
+
+        let css = "py-3 text-sm cursor-pointer font-semibold   ";
+
+        if(route === location.pathname)
+            css += "border-b-[3px] text-black border-b-red-500 ";
+        else
+            css +="text-gray-400 border-b-transparent";
+
         return (<li className={css} onClick={() => navigate(route)}>{name}</li>);
     }
-
     return (
         <div className="bg-white border-b shadow-sm sticky top-0 z-50 px-3">
             <header className="flex flex-row justify-between w-full items-center max-w-6xl mx-auto ">
                 <div>
                     <div className="h-5 cursor-pointer" onClick={()=>{navigate('/')}} >
-                        <svg viewBox="0 0 484 64" height="100%" width="100%" fill="none"
+                        <svg viewBox="0 0 484 64" className="w-full h-full"  fill="none"
                              xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
                             <path className="circle"
                                   d="M0.000253149 31.8258C-0.0692354 49.4759 14.1759 63.9295 31.826 63.999C49.4761 64.138 63.9298 49.8233 63.9992 32.1732C64.0687 14.5231 49.8236 0.138977 32.1735 0C32.104 0 32.0345 0 31.965 0C14.4539 0 0.13923 14.2452 0.000253149 31.8258Z"
