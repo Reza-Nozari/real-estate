@@ -5,13 +5,12 @@ export default function Header() {
     const location = useLocation();
     const navigate = useNavigate();
     const navigateAddress = (route, name) => {
-
         let css = "py-3 text-sm cursor-pointer font-semibold   ";
 
         if(route === location.pathname)
             css += "border-b-[3px] text-black border-b-red-500 ";
         else
-            css +="text-gray-400 border-b-transparent";
+            css +="text-gray-400 border-b-transparent hover:text-black";
 
         return (<li className={css} onClick={() => navigate(route)}>{name}</li>);
     }
