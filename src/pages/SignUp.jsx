@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { RiEyeFill } from "@react-icons/all-files/ri/RiEyeFill";
 import { RiEyeOffFill } from "@react-icons/all-files/ri/RiEyeOffFill";
@@ -8,6 +9,9 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { db } from "../firebase";
+import { doc, setDoc } from "@firebase/firestore";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
@@ -34,28 +38,75 @@ export default function SignUp() {
   }
 
   async function onSubmit(e) {
+    const notify = () => toast("Wow so easy !");
     e.preventDefault();
     try {
+      if (!firstName || !lastName || !email || !password || !confirmPassword) {
+        toast.error("field can not be empty", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        return;
+      }
+
+      if (password != confirmPassword) {
+        toast.error("password and confirm password not same", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+
+        return;
+      }
+
       const auth = getAuth();
+
       const userCredentioal = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
+
       const user = userCredentioal.user;
 
       const fullname = firstName + " " + lastName;
 
       await updateProfile(auth.currentUser, { displayName: fullname });
 
-      console.log(user);
+      await setDoc(doc(db, "users", user.uid), {
+        FirstName: firstName,
+        LastName: lastName,
+        UserId: user.uid,
+        Email: email,
+      });
     } catch (error) {
-      console.log(error);
+      toast.error(error.toString(), {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   }
 
   return (
     <div className="flex flex-col max-w-[1200px] m-auto ">
+      <ToastContainer />
       <section className="flex justify-center w-full mt-3 mb-4">
         <h1 className="text-black font-bold font-semibold  text-2xl">
           Sign Up
