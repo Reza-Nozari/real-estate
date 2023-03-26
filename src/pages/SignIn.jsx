@@ -3,9 +3,14 @@ import { RiEyeFill } from "@react-icons/all-files/ri/RiEyeFill";
 import { RiEyeOffFill } from "@react-icons/all-files/ri/RiEyeOffFill";
 import { Link } from "react-router-dom";
 import { OAuth } from "../components/autentication/OAuth";
+import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
+import { useNavigate } from "react-router";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -25,8 +30,25 @@ export default function SignIn() {
     setShowPassword(!showPassword);
   }
 
+  async function onSignIn(e) {
+    try {
+      const auth = getAuth();
+
+      const result = await signInWithEmailAndPassword(auth, email, password);
+
+      if (result.user) {
+        navigate("/");
+      } else {
+        toast.error("123");
+      }
+    } catch (error) {
+      toast.error(error.toString());
+    }
+  }
+
   return (
     <div className="flex flex-col max-w-[1200px] m-auto ">
+      <ToastContainer />
       <section className="flex justify-center w-full mt-3 mb-4">
         <h1 className="text-black font-bold font-semibold  text-2xl">
           Sign In
@@ -94,7 +116,10 @@ export default function SignIn() {
           </div>
 
           <div className="flex w-full">
-            <button className="w-full bg-blue-600 text-white px-7 py-3 text-sm font-medium uppercase rounded shadow-md hover:bg-blue-700 transition duration-150 ">
+            <button
+              onClick={onSignIn}
+              className="w-full bg-blue-600 text-white px-7 py-3 text-sm font-medium uppercase rounded shadow-md hover:bg-blue-700 transition duration-150 "
+            >
               sign in
             </button>
           </div>
