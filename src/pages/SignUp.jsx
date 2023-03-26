@@ -67,7 +67,7 @@ export default function SignUp() {
           <img
             alt=""
             className="rounded-2xl"
-            src="https://media.istockphoto.com/id/1455070607/fi/valokuva/tyhj%C3%A4-asuntolainahakemuslomake-jossa-on-talon-avain.jpg?s=612x612&w=is&k=20&c=XQUOiCWRMe9-WZtLQbNHwoeh228plHudyiSv0zhEwrw="
+            src="https://images.unsplash.com/flagged/photo-1564767609342-620cb19b2357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1073&q=80"
           />
         </div>
 
@@ -150,6 +150,10 @@ export default function SignUp() {
             >
               sign Up
             </button>
+          </div>
+
+          <div className="flex w-full gap-2  before:border-t  before:flex-1 before:border-gray-300 after:border-t  after:flex-1 after:border-gray-300  items-center">
+            <span className="text-center  font-bold ">OR</span>
           </div>
 
           <OAuth />
