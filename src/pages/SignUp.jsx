@@ -12,9 +12,11 @@ import { db } from "../firebase";
 import { doc, setDoc } from "@firebase/firestore";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router";
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -37,8 +39,7 @@ export default function SignUp() {
     setShowPassword(!showPassword);
   }
 
-  async function onSubmit(e) {
-    const notify = () => toast("Wow so easy !");
+  async function onSignUpWithEmailAndPassword(e) {
     e.preventDefault();
     try {
       if (!firstName || !lastName || !email || !password || !confirmPassword) {
@@ -90,6 +91,10 @@ export default function SignUp() {
         UserId: user.uid,
         Email: email,
       });
+
+      toast.success("Sign up was successfull");
+
+      navigate("/");
     } catch (error) {
       toast.error(error.toString(), {
         position: "top-center",
@@ -103,6 +108,8 @@ export default function SignUp() {
       });
     }
   }
+
+  
 
   return (
     <div className="flex flex-col max-w-[1200px] m-auto ">
@@ -197,7 +204,7 @@ export default function SignUp() {
           <div className="flex w-full">
             <button
               className="w-full bg-blue-600 text-white px-7 py-3 text-sm font-medium uppercase rounded shadow-md hover:bg-blue-700 transition duration-150 "
-              onClick={onSubmit}
+              onClick={onSignUpWithEmailAndPassword}
             >
               sign Up
             </button>
