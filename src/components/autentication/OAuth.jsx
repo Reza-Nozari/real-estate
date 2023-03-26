@@ -1,5 +1,4 @@
 import {FcGoogle} from "@react-icons/all-files/fc/FcGoogle";
-import {AiOutlineGoogle} from "@react-icons/all-files/ai/AiOutlineGoogle";
 
 export const OAuth = () => {
     return (

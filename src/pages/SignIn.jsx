@@ -36,7 +36,7 @@ export default function SignIn() {
             <section className="flex flex-1 flex-row justify-center items-center gap-2 w-full p-1 flex-wrap">
 
                 <div className="flex  md:w-[50%] sm:w-[50%] lg:w-[50%]">
-                    <img className="rounded-2xl" src="https://media.istockphoto.com/id/1455070607/fi/valokuva/tyhj%C3%A4-asuntolainahakemuslomake-jossa-on-talon-avain.jpg?s=612x612&w=is&k=20&c=XQUOiCWRMe9-WZtLQbNHwoeh228plHudyiSv0zhEwrw="/>
+                    <img alt="" className="rounded-2xl" src="https://media.istockphoto.com/id/1455070607/fi/valokuva/tyhj%C3%A4-asuntolainahakemuslomake-jossa-on-talon-avain.jpg?s=612x612&w=is&k=20&c=XQUOiCWRMe9-WZtLQbNHwoeh228plHudyiSv0zhEwrw="/>
                 </div>
 
                 <div className="flex flex-1 flex-col  gap-2 justify-center items-center p-4">
@@ -57,7 +57,7 @@ export default function SignIn() {
                     <div className="flex flex-row gap-1 align-middle font-bold justify-between w-full">
                        <div className="flex flex-row gap-1">
                            <span className="text-gray-500">Don't have a account ?</span>
-                           <Link to="/signOut" className="text-red-300 hover:text-red-500 cursor-pointer" >Register</Link>
+                           <Link to="/signUp" className="text-red-300 hover:text-red-500 cursor-pointer" >Register</Link>
                        </div>
                         <div>
                             <Link to="/forgotpassword" className="text-blue-300 hover:text-blue-500 cursor-pointer">Forgot password?</Link>
