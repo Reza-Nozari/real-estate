@@ -160,6 +160,7 @@ export default function SignUp() {
               value={email}
               name="email"
               onChange={onChange}
+              
             />
           </div>
 
