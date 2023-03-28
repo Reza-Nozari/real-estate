@@ -56,7 +56,7 @@ export default function SignUp() {
         return;
       }
 
-      if (password != confirmPassword) {
+      if (password !== confirmPassword) {
         toast.error("password and confirm password not same", {
           position: "top-center",
           autoClose: 5000,
@@ -109,8 +109,6 @@ export default function SignUp() {
     }
   }
 
-  
-
   return (
     <div className="flex flex-col max-w-[1200px] m-auto ">
       <ToastContainer />
@@ -160,7 +158,6 @@ export default function SignUp() {
               value={email}
               name="email"
               onChange={onChange}
-              
             />
           </div>
 
