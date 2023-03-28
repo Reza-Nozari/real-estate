@@ -95,12 +95,14 @@ export default function SignIn() {
             </div>
           </div>
 
-          <div className="flex flex-row gap-1 align-middle font-bold justify-between w-full">
+          <div className="flex flex-row flex-wrap gap-1 align-middle font-bold justify-between w-full">
             <div className="flex flex-row gap-1">
-              <span className="text-gray-500">Don't have a account ?</span>
+              <span className="text-gray-500 sm:text-xs">
+                Don't have a account ?
+              </span>
               <Link
                 to="/signUp"
-                className="text-red-300 hover:text-red-500 cursor-pointer"
+                className="text-red-300 hover:text-red-500 cursor-pointer sm:text-xs"
               >
                 Register
               </Link>
