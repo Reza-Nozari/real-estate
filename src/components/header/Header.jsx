@@ -1,11 +1,22 @@
 import { useLocation, useNavigate } from "react-router";
-import { useAuthStatus } from "../../hooks/useAuthStatus";
+import { useEffect, useState } from "react";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default function Header() {
-  const location = useLocation();
-  const navigate = useNavigate();
+  const [login, setLogin] = useState(false);
 
-  const { loggedIn, checkingStatus } = useAuthStatus();
+  useEffect(() => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLogin(true);
+      }
+    });
+  }, []);
+
+  const location = useLocation();
+
+  const navigate = useNavigate();
 
   const navigateAddress = (route, name) => {
     let css = "py-3 text-sm cursor-pointer font-semibold   ";
@@ -62,9 +73,9 @@ export default function Header() {
             {navigateAddress("/", "Home")}
             {navigateAddress("/offers", "Offers")}
 
-            {!loggedIn && navigateAddress("/signIn", "SignIn")}
+            {!login && navigateAddress("/signIn", "SignIn")}
 
-            {loggedIn && navigateAddress("/profile", "Profile")}
+            {login && navigateAddress("/profile", "Profile")}
           </ul>
         </div>
       </header>
