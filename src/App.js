@@ -8,6 +8,7 @@ import Offers from "./pages/Offers";
 import ForgotPassword from "./pages/ForgotPassword";
 import Header from "./components/header/Header";
 import PrivateRoute from "./components/route/PrivateRoute";
+import CreateListing from "./pages/CreateListing";
 
 function App() {
   return (
@@ -17,6 +18,9 @@ function App() {
         <Route path="/" element={<Home />}></Route>
         <Route path="/profile" element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />}></Route>
+        </Route>
+        <Route path="/createListing" element={<PrivateRoute />}>
+          <Route path="/createListing" element={<CreateListing />}></Route>
         </Route>
         <Route path="/signIn" element={<SignIn />}></Route>
         <Route path="/signUp" element={<SignUp />}></Route>
