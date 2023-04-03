@@ -5,6 +5,7 @@ import { getAuth, updateProfile } from "firebase/auth";
 import { toast } from "react-toastify";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
+import { TbHome } from "react-icons/tb";
 
 export default function Profile() {
   const auth = getAuth();
@@ -115,6 +116,12 @@ export default function Profile() {
                 </span>
               </div>
             </div>
+          </div>
+          <div className="flex align-middle justify-center">
+            <button className="relative uppercase bg-blue-600 w-full p-3 rounded text-white font-bold">
+              <TbHome className="absolute text-2xl top-3 left-10" />
+              Sell Or Rent yout home
+            </button>
           </div>
         </div>
       </div>
