@@ -1,4 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
+
+export function Choose({ item1 = "yes", item2 = "no", OnChange }) {
+  const [selectItem1, setselectItem1] = useState(false);
+  const [selectItem2, setselectItem2] = useState(true);
+
+  function onSelectItem1() {
+    setselectItem1(true);
+    setselectItem2(false);
+    OnChange && OnChange(selectItem1 ? item1 : item2);
+  }
+
+  function onSelectItem2() {
+    setselectItem1(false);
+    setselectItem2(true);
+    OnChange && OnChange(selectItem1 ? item1 : item2);
+  }
+
+  return (
+    <div className="flex  mt-3 justify-between ">
+      <button
+        className={`${
+          selectItem1 ? "bg-slate-600 text-white" : "bg-white text-black"
+        } uppercase px-20 py-3  rounded hover:scale-105 shadow-md hover:shadow-lg`}
+        onClick={onSelectItem1}
+      >
+        {item1 ?? "yes"}
+      </button>
+      <button
+        className={`${
+          selectItem2 ? "bg-slate-600 text-white" : "bg-white text-black"
+        } uppercase px-20 py-3 rounded hover:scale-105 shadow-md hover:shadow-lg`}
+        onClick={onSelectItem2}
+      >
+        {item2 ?? "no"}
+      </button>
+    </div>
+  );
+}
 
 export default function CreateListing() {
   return (
@@ -9,14 +47,7 @@ export default function CreateListing() {
       <div className="flex flex-col gap-5 px-3 align-middle justify-center">
         <div className="flex flex-col align-middle justify-center">
           <label className="font-bold text-lg">Sell/Rent</label>
-          <div className="flex  mt-3 justify-between ">
-            <button className="bg-white uppercase w-[200px] h-[50px] shadow-md hover:shadow-lg hover:scale-105">
-              Sell
-            </button>
-            <button className="bg-slate-600 uppercase w-[200px] h-[50px] text-white rounded hover:scale-105 shadow-md hover:shadow-lg">
-              rent
-            </button>
-          </div>
+          <Choose item1="Sell" item2="Rent" />
         </div>
         <div className="flex flex-col align-middle justify-center">
           <label className="font-bold text-lg">Name</label>
@@ -46,25 +77,11 @@ export default function CreateListing() {
         </div>
         <div className="flex flex-col align-middle justify-center">
           <label className="font-bold text-lg">Parking spot</label>
-          <div className="flex  mt-3 justify-between ">
-            <button className="bg-white uppercase px-20 py-3 shadow-md hover:shadow-lg hover:scale-105">
-              yes
-            </button>
-            <button className="bg-slate-600 uppercase px-20 py-3 text-white rounded hover:scale-105 shadow-md hover:shadow-lg">
-              No
-            </button>
-          </div>
+          <Choose />
         </div>
         <div className="flex flex-col align-middle justify-center">
           <label className="font-bold text-lg">Furnished</label>
-          <div className="flex  mt-3 justify-between ">
-            <button className="bg-white uppercase px-20 py-3 shadow-md hover:shadow-lg hover:scale-105">
-              yes
-            </button>
-            <button className="bg-slate-600 uppercase px-20 py-3 text-white rounded hover:scale-105 shadow-md hover:shadow-lg">
-              No
-            </button>
-          </div>
+          <Choose />
         </div>
         <div className="flex flex-col align-middle justify-center">
           <label className="font-bold text-lg">Address</label>
@@ -88,14 +105,7 @@ export default function CreateListing() {
         </div>
         <div className="flex flex-col align-middle justify-center">
           <label className="font-bold text-lg">Offer</label>
-          <div className="flex  mt-3 justify-between ">
-            <button className="bg-white uppercase px-20 py-3 shadow-md hover:shadow-lg hover:scale-105">
-              yes
-            </button>
-            <button className="bg-slate-600 uppercase px-20 py-3 text-white rounded hover:scale-105 shadow-md hover:shadow-lg">
-              No
-            </button>
-          </div>
+          <Choose />
         </div>
         <div className="flex  justify-between">
           <div className="flex  flex-col">
