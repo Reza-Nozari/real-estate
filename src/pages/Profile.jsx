@@ -61,6 +61,9 @@ export default function Profile() {
     }
   }
 
+  function OnSellOrRent() {
+    navigate("/createListing");
+  }
   return (
     <div className="bg-[#f0f8ed] h-full">
       <div className="max-w-[500px] mx-auto">
@@ -118,7 +121,10 @@ export default function Profile() {
             </div>
           </div>
           <div className="flex align-middle justify-center">
-            <button className="relative uppercase bg-blue-600 w-full p-3 rounded text-white font-bold">
+            <button
+              onClick={OnSellOrRent}
+              className="relative uppercase bg-blue-600 w-full p-3 rounded text-white font-bold"
+            >
               <TbHome className="absolute text-2xl top-3 left-10" />
               Sell Or Rent yout home
             </button>
