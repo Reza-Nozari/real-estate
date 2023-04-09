@@ -1,5 +1,14 @@
 import React, { useState } from "react";
 import Spinner from "../components/tools/Spinner";
+import { toast, ToastContainer } from "react-toastify";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
+import { getAuth } from "firebase/auth";
+import { v4 as uuidv4 } from "uuid";
 
 export function Choose({ item1 = "yes", item2 = "no", change = null, name }) {
   const [selectItem1, setselectItem1] = useState(false);
@@ -42,6 +51,7 @@ export function Choose({ item1 = "yes", item2 = "no", change = null, name }) {
 }
 
 export default function CreateListing() {
+  const auth = getAuth();
   const [loading, setloading] = useState(false);
   const [formData, setformData] = useState({
     type: "rent",
@@ -102,8 +112,67 @@ export default function CreateListing() {
     }));
   }
 
-  function onSubmit() {
-    setloading(true);
+  async function onSubmit() {
+    if (discountedPrice > regularPrice) {
+      toast.error("Discounted price needs to be less thatn regular price");
+      return;
+    }
+    if (images?.length > 6) {
+      toast.error("maximum 6 images are allowed");
+      return;
+    }
+
+    //setloading(true);
+
+    const imageUrl = await Promise.all(
+      [...images].map((image) => {
+        return storeImage(image);
+      })
+    ).catch((error) => {
+      setloading(false);
+      toast.error("Images not uploaded");
+      return;
+    });
+
+    
+  }
+
+  function storeImage(image) {
+    return new Promise((resolve, reject) => {
+      const storage = getStorage();
+      const fileName = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`;
+      const storageRef = ref(storage, fileName);
+      const uploadTask = uploadBytesResumable(storageRef, image);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          // Observe state change events such as progress, pause, and resume
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+          }
+        },
+        (error) => {
+          reject();
+        },
+        () => {
+          // Handle successful uploads on complete
+          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            resolve(downloadURL);
+          });
+        }
+      );
+    });
   }
 
   if (loading) {
@@ -116,6 +185,7 @@ export default function CreateListing() {
 
   return (
     <div className="max-w-[500px] mx-auto mb-5">
+      <ToastContainer />
       <div className="flex align-middle justify-center mt-10 mb-4">
         <h1 className="font-bold  text-4xl">Create a Listing</h1>
       </div>
@@ -253,11 +323,14 @@ export default function CreateListing() {
 
         <div className="flex flex-col align-middle justify-center">
           <label className="font-bold text-lg">Images</label>
+          <span>The first image will be the covert (max 6)</span>
           <div className="flex gap-5 mt-3 ">
             <input
+              accept="image/png, image/gif, image/jpeg"
               type="file"
               placeholder="Name"
               name="files"
+              multiple
               className="bg-white shadow-md rounded border-gray-300  p-2"
               onChange={onChange}
             />
