@@ -9,6 +9,9 @@ import {
 } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 import { v4 as uuidv4 } from "uuid";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { db } from "../firebase";
+import { useNavigate } from "react-router";
 
 export function Choose({ item1 = "yes", item2 = "no", change = null, name }) {
   const [selectItem1, setselectItem1] = useState(false);
@@ -52,6 +55,7 @@ export function Choose({ item1 = "yes", item2 = "no", change = null, name }) {
 
 export default function CreateListing() {
   const auth = getAuth();
+  const navigate = useNavigate();
   const [loading, setloading] = useState(false);
   const [formData, setformData] = useState({
     type: "rent",
@@ -122,9 +126,9 @@ export default function CreateListing() {
       return;
     }
 
-    //setloading(true);
+    setloading(true);
 
-    const imageUrl = await Promise.all(
+    const imageUrls = await Promise.all(
       [...images].map((image) => {
         return storeImage(image);
       })
@@ -134,7 +138,17 @@ export default function CreateListing() {
       return;
     });
 
-    
+    const formDataTemp = {
+      ...formData,
+      images: imageUrls,
+      timestamp: serverTimestamp(),
+      userid: auth.currentUser.uid,
+    };
+
+    const docRef = await addDoc(collection(db, "listings"), formDataTemp);
+    setloading(false);
+    toast.success("Listing created");
+    navigate("/category");
   }
 
   function storeImage(image) {
