@@ -14,6 +14,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { TbHome } from "react-icons/tb";
+import Listing from "../components/listing/Listing";
 
 export default function Profile() {
   const auth = getAuth();
@@ -160,21 +161,16 @@ export default function Profile() {
           </div>
         </div>
       </div>
-      <div className="max-w-[1200px] mx-auto">
-        <div className="flex flex-col">
+      <div className="max-w-[1200px] mx-auto p-2">
+        <div className="flex flex-col gap-5">
           <div className="flex flex-col justify-center items-center">
             <h1 className="text-4xl font-bold">Listing</h1>
           </div>
-          <div className="flex gap-4">
+          <div className="sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 ">
             {listings &&
               listings.length > 0 &&
               listings.map((item) => (
-                <div className="flex flex-col w-[200px]" key={item.id}>
-                  <div id="header">
-                    <img src={item.data.images[0]} />
-                  </div>
-                  <div id="body">{item.data.name}</div>
-                </div>
+                <Listing data={item.data} id={item.id} key={item.id} />
               ))}
           </div>
         </div>
