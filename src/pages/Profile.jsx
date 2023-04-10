@@ -1,15 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import "react-toastify/dist/ReactToastify.css";
 import { getAuth, updateProfile } from "firebase/auth";
 import { toast } from "react-toastify";
-import { updateDoc, doc } from "firebase/firestore";
+import {
+  updateDoc,
+  doc,
+  collection,
+  query,
+  where,
+  getDoc,
+  getDocs,
+} from "firebase/firestore";
 import { db } from "../firebase";
 import { TbHome } from "react-icons/tb";
+import Listing from "../components/listing/Listing";
 
 export default function Profile() {
   const auth = getAuth();
   const navigate = useNavigate();
+  const [listings, setlistings] = useState([]);
+
   const [changeDetail, setChangeDetail] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -61,11 +72,30 @@ export default function Profile() {
     }
   }
 
+  useEffect(() => {
+    async function fetchUserListings() {
+      const listingRef = collection(db, "listings");
+      const q = query(listingRef, where("userid", "==", auth.currentUser.uid));
+      const querySnap = await getDocs(q);
+      let list = [];
+      querySnap.forEach((doc) => {
+        return list.push({
+          id: doc.id,
+          data: doc.data(),
+        });
+      });
+
+      setlistings(list);
+    }
+
+    fetchUserListings();
+  }, [auth.currentUser.uid]);
+
   function OnSellOrRent() {
     navigate("/createListing");
   }
   return (
-    <div className="bg-[#f0f8ed] h-full">
+    <div className="bg-[#f0f8ed] h-full ">
       <div className="max-w-[500px] mx-auto">
         <div className="flex flex-col  gap-6 px-2 pb-5">
           <div className="flex justify-center align-middle mt-3">
@@ -128,6 +158,20 @@ export default function Profile() {
               <TbHome className="absolute text-2xl top-3 left-10" />
               Sell Or Rent yout home
             </button>
+          </div>
+        </div>
+      </div>
+      <div className="max-w-[1200px] mx-auto p-2">
+        <div className="flex flex-col gap-5">
+          <div className="flex flex-col justify-center items-center">
+            <h1 className="text-4xl font-bold">Listing</h1>
+          </div>
+          <div className="sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 ">
+            {listings &&
+              listings.length > 0 &&
+              listings.map((item) => (
+                <Listing data={item.data} id={item.id} key={item.id} />
+              ))}
           </div>
         </div>
       </div>

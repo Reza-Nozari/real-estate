@@ -148,7 +148,7 @@ export default function CreateListing() {
     const docRef = await addDoc(collection(db, "listings"), formDataTemp);
     setloading(false);
     toast.success("Listing created");
-    navigate("/category");
+    navigate("/profile");
   }
 
   function storeImage(image) {
