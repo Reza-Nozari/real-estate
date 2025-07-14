@@ -1,6 +1,6 @@
 ## Authors
 
-Mohammadreza Nozari (Email: mohammadreza.nozari@yahoo.com)
+Reza Nozari (Email: dev.nozari@gmail.com)
 
 - [@linkedin](https://www.linkedin.com/in/mrnozari/)
 
